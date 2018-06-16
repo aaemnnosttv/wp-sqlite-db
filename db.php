@@ -1250,14 +1250,6 @@ class PDOEngine extends PDO
      */
     private function init()
     {
-        if (defined('WP_INSTALLING') && WP_INSTALLING) {
-            $statement        = $this->pdo->query("SELECT COUNT(*) FROM sqlite_master WHERE type='table'");
-            $number_of_tables = $statement->fetchColumn(0);
-            $statement        = null;
-            if ($number_of_tables == 0) {
-                $this->make_sqlite_tables();
-            }
-        }
         if (version_compare($this->get_sqlite_version(), '3.7.11', '>=')) {
             $this->can_insert_multiple_rows = true;
         }
