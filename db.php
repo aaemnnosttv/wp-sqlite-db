@@ -1240,7 +1240,7 @@ class PDOEngine extends PDO
     }
 
     /**
-     * Method to initialize database, executed in the contructor.
+     * Method to initialize database, executed in the constructor.
      *
      * It checks if WordPress is in the installing process and does the required
      * jobs. SQLite library version specific settings are also in this function.
@@ -1624,13 +1624,10 @@ class PDOEngine extends PDO
     private function prepare_engine($query_type = null)
     {
         if (stripos($query_type, 'create') !== false) {
-//            require_once PDODIR . 'query_create.class.php';
             $engine = new CreateQuery();
         } elseif (stripos($query_type, 'alter') !== false) {
-//            require_once PDODIR . 'query_alter.class.php';
             $engine = new AlterQuery();
         } else {
-//            require_once PDODIR . 'query.class.php';
             $engine = new PDOSQLiteDriver();
         }
 
@@ -3296,7 +3293,6 @@ class PDOSQLiteDriver
      */
     private function handle_create_query()
     {
-//        require_once PDODIR . 'query_create.class.php';
         $engine       = new CreateQuery();
         $this->_query = $engine->rewrite_query($this->_query);
         $engine       = null;
@@ -3312,7 +3308,6 @@ class PDOSQLiteDriver
      */
     private function handle_alter_query()
     {
-//        require_once PDODIR . 'query_alter.class.php';
         $engine       = new AlterQuery();
         $this->_query = $engine->rewrite_query($this->_query, 'alter');
         $engine       = null;
@@ -4939,7 +4934,6 @@ class AlterQuery
  */
 function make_db_sqlite()
 {
-//                include_once PDODIR . 'query_create.class.php';
     include_once ABSPATH . 'wp-admin/includes/schema.php';
     $index_array = [];
 
