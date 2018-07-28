@@ -2386,7 +2386,7 @@ class PDOEngine extends PDO
                 $value = preg_replace("/[\';]/", '', $value);
                 $value = trim($value);
                 foreach ($_results as $result) {
-                    if (stripos($value, $result->$key) !== false) {
+                    if (! empty($result->$key) && is_scalar($result->$key) && stripos($value, $result->$key) !== false) {
                         unset($_results);
                         $_results[] = $result;
                         break;
