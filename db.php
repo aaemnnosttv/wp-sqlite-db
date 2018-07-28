@@ -2288,7 +2288,7 @@ class PDOEngine extends PDO
             'Default' => "",
             'Extra'   => ""
         ];
-        if (count($this->_results) === 0) {
+        if (empty($this->_results)) {
             echo $this->get_error_message();
         } else {
             foreach ($this->_results as $row) {
