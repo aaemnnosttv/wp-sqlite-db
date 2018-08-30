@@ -87,18 +87,6 @@ if ( ! extension_loaded('pdo_sqlite')) {
  */
 
 /*
- * PDODIR is SQLite Integration installed directory.
- */
-//if (defined('WP_PLUGIN_DIR')) {
-//    define('PDODIR', WP_PLUGIN_DIR . '/sqlite-integration/');
-//} else {
-//    if (defined('WP_CONTENT_DIR')) {
-//        define('PDODIR', WP_CONTENT_DIR . '/plugins/sqlite-integration/');
-//    } else {
-//        define('PDODIR', ABSPATH . 'wp-content/plugins/sqlite-integration/');
-//    }
-//}
-/*
  * FQDBDIR is a directory where the sqlite database file is placed.
  * If DB_DIR is defined, it is used as FQDBDIR.
  */
@@ -125,15 +113,6 @@ if (defined('DB_FILE')) {
 } else {
     define('FQDB', FQDBDIR . '.ht.sqlite');
 }
-
-///*
-// * UDF_FILE is a file that contains user defined functions.
-// */
-//if (version_compare(PHP_VERSION, '5.3', '<')) {
-//    define('UDF_FILE', PDODIR . 'functions-5-2.php');
-//} elseif (version_compare(PHP_VERSION, '5.3', '>=')) {
-//    define('UDF_FILE', PDODIR . 'functions.php');
-//}
 
 /**
  * This class defines user defined functions(UDFs) for PDO library.
