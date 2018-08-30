@@ -2,7 +2,7 @@
     "name": "aaemnnosttv/wp-sqlite-db",
     "description": "SQLite drop-in database driver for WordPress",
     "type": "wordpress-dropin",
-    "license": "GPL-2.0+",
+    "license": "GPL-2.0-or-later",
     "authors": [
         {
             "name": "Evan Mattson",
