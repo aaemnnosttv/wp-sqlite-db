@@ -7,10 +7,7 @@ php:
 - 5.4
 
 before_install: composer validate --strict
+
 install: composer install
-script:
-  - export PATH="./vendor/bin:$PATH"
-  - wp core download
-  - cp db.php wp-content && mv wp-config-sample.php wp-config.php
-  - wp core install --url="http://travis.test" --title="Travis" --admin_user="travis" --admin_email="travis@travis.test"
-  - wp core is-installed
+
+script: .ci/test.sh
