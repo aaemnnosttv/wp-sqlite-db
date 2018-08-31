@@ -6,7 +6,7 @@ export PATH="$PWD/vendor/bin:$PATH"
 
 wp core download --path=wp
 
-cp db.php wp/wp-content
+cp src/db.php wp/wp-content
 
 cd wp
 

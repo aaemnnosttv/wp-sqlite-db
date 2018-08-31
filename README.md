@@ -9,7 +9,7 @@ A single file drop-in for using a SQLite database with WordPress. Based on the o
 ## Installation
 
 - Clone or download this repository
-- Copy `db.php` into the root of your site's `wp-content` directory
+- Copy `src/db.php` into the root of your site's `wp-content` directory
 
 ## Overview
 
