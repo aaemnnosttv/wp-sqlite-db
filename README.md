@@ -8,8 +8,20 @@ A single file drop-in for using a SQLite database with WordPress. Based on the o
 
 ## Installation
 
+#### Quick Start
 - Clone or download this repository
 - Copy `src/db.php` into the root of your site's `wp-content` directory
+
+#### Via Composer
+- `composer require koodimonni/composer-dropin-installer`
+- Add the configuration to your project's `composer.json` under the `extra` key  
+```
+"extra": {
+    "dropin-paths": {
+        "wp-content/": ["package:aaemnnosttv/wp-sqlite-db:src/db.php"]
+    }
+}
+```
 
 ## Overview
 
