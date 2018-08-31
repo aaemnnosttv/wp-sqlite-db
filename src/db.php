@@ -5042,7 +5042,7 @@ namespace {
         wp_cache_flush();
         /* begin wp-sqlite-db changes */
         // make_db_current_silent();
-        make_db_sqlite();
+        WP_SQLite_DB\make_db_sqlite();
         /* end wp-sqlite-db changes */
         populate_options();
         populate_roles();
