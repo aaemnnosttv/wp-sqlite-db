@@ -17,6 +17,7 @@
 namespace WP_SQLite_DB {
 
     use PDO;
+    use PDOException;
 
     if (! defined('ABSPATH')) {
         exit;
