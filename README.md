@@ -1,5 +1,9 @@
 # wp-sqlite-db
 
+[![Build Status](https://travis-ci.org/aaemnnosttv/wp-sqlite-db.svg?branch=master)](https://travis-ci.org/aaemnnosttv/wp-sqlite-db)
+[![Packagist](https://img.shields.io/packagist/v/aaemnnosttv/wp-sqlite-db.svg)](https://packagist.org/packages/aaemnnosttv/wp-sqlite-db)
+[![Packagist](https://img.shields.io/packagist/l/aaemnnosttv/wp-sqlite-db.svg)](https://packagist.org/packages/aaemnnosttv/wp-sqlite-db)
+
 A single file drop-in for using a SQLite database with WordPress. Based on the original SQLite Integration plugin.
 
 ## Installation
