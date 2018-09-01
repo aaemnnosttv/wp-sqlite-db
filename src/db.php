@@ -2504,11 +2504,10 @@ HTML
     class wpsqlitedb extends \wpdb
     {
         /**
-         *
-         * @var reference to the object of PDOEngine class.
-         * @access protected
+         * Database Handle
+         * @var PDOEngine
          */
-        protected $dbh = null;
+        protected $dbh;
 
         /**
          * Constructor
@@ -2606,7 +2605,7 @@ HTML
          *
          * @param string $str The error to display
          *
-         * @return false|void False if the showing of errors is disabled.
+         * @return bool False if the showing of errors is disabled.
          */
         public function print_error($str = '')
         {
@@ -3148,8 +3147,6 @@ HTML
          *
          * This kind of statement is required for WordPress to calculate the paging information.
          * see also WP_Query class in wp-includes/query.php
-         *
-         * @access private
          */
         private function handle_sql_count()
         {
@@ -4246,7 +4243,7 @@ HTML
         public $_query = null;
 
         /**
-         * Function to split the query string to the tokens and call apropreate functions.
+         * Function to split the query string to the tokens and call appropriate functions.
          *
          * @param $query
          * @param string $query_type
