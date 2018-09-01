@@ -2500,9 +2500,8 @@ HTML
      * This class extends wpdb and replaces it.
      *
      * It also rewrites some methods that use mysql specific functions.
-     *
      */
-    class PDODB extends \wpdb
+    class wpsqlitedb extends \wpdb
     {
         /**
          *
@@ -3200,7 +3199,7 @@ HTML
             //$unlimited_query = preg_replace('/\\bGROUP\\s*BY\\s*.*/imsx', '', $unlimited_query);
             // we no longer use SELECT COUNT query
             //$unlimited_query = $this->_transform_to_count($unlimited_query);
-            $_wpdb = new PDODB();
+            $_wpdb = new wpsqlitedb();
             $result = $_wpdb->query($unlimited_query);
             $wpdb->dbh->found_rows_result = $result;
             $_wpdb = null;
@@ -3340,7 +3339,7 @@ HTML
          */
         private function rewrite_limit_usage()
         {
-            $_wpdb = new PDODB();
+            $_wpdb = new wpsqlitedb();
             $options = $_wpdb->get_results('PRAGMA compile_options');
             foreach ($options as $opt) {
                 if (isset($opt->compile_option) && stripos($opt->compile_option, 'ENABLE_UPDATE_DELETE_LIMIT') !== false) {
@@ -3363,7 +3362,7 @@ HTML
          */
         private function rewrite_order_by_usage()
         {
-            $_wpdb = new PDODB();
+            $_wpdb = new wpsqlitedb();
             $options = $_wpdb->get_results('PRAGMA compile_options');
             foreach ($options as $opt) {
                 if (isset($opt->compile_option) && stripos($opt->compile_option, 'ENABLE_UPDATE_DELETE_LIMIT') !== false) {
@@ -3558,7 +3557,7 @@ HTML
                 $update_data = trim($match_0[3]);
                 // prepare two unique key data for the table
                 // 1. array('col1', 'col2, col3', etc) 2. array('col1', 'col2', 'col3', etc)
-                $_wpdb = new PDODB();
+                $_wpdb = new wpsqlitedb();
                 $indexes = $_wpdb->get_results("SHOW INDEX FROM {$table_name}");
                 if (! empty($indexes)) {
                     foreach ($indexes as $index) {
@@ -3726,7 +3725,7 @@ HTML
 
                 if ($tbl_name && in_array($tbl_name, $wpdb->tables)) {
                     $query = str_replace($match[0], '', $this->_query);
-                    $_wpdb = new PDODB();
+                    $_wpdb = new wpsqlitedb();
                     $results = $_wpdb->get_results($query);
                     $_wpdb = null;
                     usort($results, function ($a, $b) use ($flipped) {
@@ -3759,7 +3758,7 @@ HTML
             } elseif (stripos($this->_query, $pattern2) !== false) {
                 $time = time();
                 $prep_query = "SELECT a.meta_id AS aid, b.meta_id AS bid FROM $wpdb->sitemeta AS a INNER JOIN $wpdb->sitemeta AS b ON a.meta_key='_site_transient_timeout_'||substr(b.meta_key, 17) WHERE b.meta_key='_site_transient_'||substr(a.meta_key, 25) AND a.meta_value < $time";
-                $_wpdb = new PDODB();
+                $_wpdb = new wpsqlitedb();
                 $ids = $_wpdb->get_results($prep_query);
                 foreach ($ids as $id) {
                     $ids_to_delete[] = $id->aid;
@@ -4066,7 +4065,7 @@ HTML
             if (preg_match('/\(\\d+?\)/', $col_name)) {
                 $col_name = preg_replace('/\(\\d+?\)/', '', $col_name);
             }
-            $_wpdb = new PDODB();
+            $_wpdb = new wpsqlitedb();
             $results = $_wpdb->get_results("SELECT name FROM sqlite_master WHERE type='index'");
             $_wpdb = null;
             if ($results) {
@@ -4156,7 +4155,7 @@ HTML
                 $col_name = preg_replace_callback('/\([0-9]+?\)/', [$this, '_remove_length'], $col_name);
             }
             $tbl_name = $this->table_name;
-            $_wpdb = new PDODB();
+            $_wpdb = new wpsqlitedb();
             $results = $_wpdb->get_results("SELECT name FROM sqlite_master WHERE type='index'");
             $_wpdb = null;
             if ($results) {
@@ -4599,7 +4598,7 @@ HTML
             $tokenized_query = $queries;
             $tbl_name = $tokenized_query['table_name'];
             $temp_table = 'temp_' . $tokenized_query['table_name'];
-            $_wpdb = new PDODB();
+            $_wpdb = new wpsqlitedb();
             $query_obj = $_wpdb->get_results("SELECT sql FROM sqlite_master WHERE tbl_name='$tbl_name'");
             $_wpdb = null;
             for ($i = 0; $i < count($query_obj); $i++) {
@@ -4633,7 +4632,7 @@ HTML
         {
             $tokenized_query = $queries;
             $temp_table = 'temp_' . $tokenized_query['table_name'];
-            $_wpdb = new PDODB();
+            $_wpdb = new wpsqlitedb();
             $query_obj = $_wpdb->get_results("SELECT sql FROM sqlite_master WHERE tbl_name='{$tokenized_query['table_name']}'");
             $_wpdb = null;
             for ($i = 0; $i < count($query_obj); $i++) {
@@ -4673,7 +4672,7 @@ HTML
             $tokenized_query = $queries;
             $temp_table = 'temp_' . $tokenized_query['table_name'];
             $column_def = $this->convert_field_types($tokenized_query['column_name'], $tokenized_query['column_def']);
-            $_wpdb = new PDODB();
+            $_wpdb = new wpsqlitedb();
             $query_obj = $_wpdb->get_results("SELECT sql FROM sqlite_master WHERE tbl_name='{$tokenized_query['table_name']}'");
             $_wpdb = null;
             for ($i = 0; $i < count($query_obj); $i++) {
@@ -4726,7 +4725,7 @@ HTML
                 $column_name = $tokenized_query['old_column'];
             }
             $column_def = $this->convert_field_types($column_name, $tokenized_query['column_def']);
-            $_wpdb = new PDODB();
+            $_wpdb = new wpsqlitedb();
             $col_obj = $_wpdb->get_results("SHOW COLUMNS FROM {$tokenized_query['table_name']}");
             foreach ($col_obj as $col) {
                 if (stripos($col->Field, $tokenized_query['old_column']) !== false) {
@@ -4793,7 +4792,7 @@ HTML
             } else {
                 $def_value = null;
             }
-            $_wpdb = new PDODB();
+            $_wpdb = new wpsqlitedb();
             $query_obj = $_wpdb->get_results("SELECT sql FROM sqlite_master WHERE tbl_name='{$tokenized_query['table_name']}'");
             $_wpdb = null;
             for ($i = 0; $i < count($query_obj); $i++) {
@@ -5112,12 +5111,6 @@ namespace {
         return ['url' => $guessurl, 'user_id' => $user_id, 'password' => $user_password, 'password_message' => $message];
     }
 
-    /*
-     * Initialize $wpdb with PDODB class
-     */
-    if (! isset($wpdb)) {
-        global $wpdb;
-        $wpdb = new WP_SQLite_DB\PDODB();
-    }
+    $GLOBALS['wpdb'] = new WP_SQLite_DB\wpsqlitedb();
 }
 
