@@ -2712,20 +2712,7 @@ HTML
          */
         public function db_connect($allow_bail = true)
         {
-            if (WP_DEBUG) {
-                $this->dbh = new PDOEngine();
-            } else {
-                // WP_DEBUG or not, we don't use @ which causes the slow execution
-                // PDOEngine class will take the Exception handling.
-                $this->dbh = new PDOEngine();
-            }
-            if (! $this->dbh) {
-                wp_load_translations_early();//probably there's no translations
-                $this->bail(sprintf(__("<h1>Error establlishing a database connection</h1><p>We have been unable to connect to the specified database. <br />The error message received was %s"),
-                    $this->dbh->errorInfo()));
-
-                return;
-            }
+            $this->dbh = new PDOEngine();
             $this->ready = true;
         }
 
