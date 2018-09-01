@@ -2727,7 +2727,6 @@ HTML
 
                 return;
             }
-            $this->has_connected = true;
             $this->ready = true;
         }
 
