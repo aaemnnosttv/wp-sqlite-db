@@ -2513,34 +2513,11 @@ HTML
         /**
          * Constructor
          *
-         * This overrides wpdb::__construct() which has database server, username and
-         * password as arguments. This class doesn't use them.
-         *
-         * @see wpdb::__construct()
+         * Unlike wpdb, no credentials are needed.
          */
         public function __construct()
         {
-            register_shutdown_function([$this, '__destruct']);
-
-            if (WP_DEBUG) {
-                $this->show_errors();
-            }
-
-            $this->init_charset();
-
-            $this->db_connect();
-        }
-
-        /**
-         * Desctructor
-         *
-         * This overrides wpdb::__destruct(), but does nothing but return true.
-         *
-         * @see wpdb::__destruct()
-         */
-        public function __destruct()
-        {
-            return true;
+            parent::__construct('', '', '', '');
         }
 
         /**
@@ -2712,6 +2689,7 @@ HTML
          */
         public function db_connect($allow_bail = true)
         {
+            $this->init_charset();
             $this->dbh = new PDOEngine();
             $this->ready = true;
         }
