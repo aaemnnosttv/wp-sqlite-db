@@ -2772,30 +2772,6 @@ HTML
         }
 
         /**
-         * Method for future use?
-         *
-         * WordPress 3.9 separated the method to execute real query from query() function.
-         * This is for the restoration from the case that nothing returns from database.
-         * But this is necessary because we already did error manipulations in
-         * pdoengine.class.php. So we don't use this function.
-         *
-         * @access private
-         *
-         * @param $query
-         */
-        private function _do_query($query)
-        {
-            if (defined('SAVEQUERIES') && SAVEQUERIES) {
-                $this->timer_start();
-            }
-            $this->result = $this->dbh->query($query);
-            $this->num_queries++;
-            if (defined('SAVEQUERIES') && SAVEQUERIES) {
-                $this->queries[] = [$query, $this->timer_stop(), $this->get_caller()];
-            }
-        }
-
-        /**
          * Method to set the class variable $col_info.
          *
          * This overrides wpdb::load_col_info(), which uses a mysql function.
@@ -2850,8 +2826,6 @@ HTML
          */
         public function db_version()
         {
-            //global $required_mysql_version;
-            //return $required_mysql_version;
             return '5.5';
         }
     }
@@ -3088,54 +3062,6 @@ HTML
         }
 
         /**
-         * Method to strip all column qualifiers (backticks) from a query.
-         *
-         * All the back quotes in the query string are removed automatically.
-         * So it must not be used when INSERT, UPDATE or REPLACE query is executed.
-         *
-         * Obsolite since 1.5.1
-         *
-         * @access private
-         */
-        private function strip_backticks()
-        {
-            $this->_query = str_replace('`', '', $this->_query);
-        }
-
-        /**
-         * Method to strip all column qualifiers (backticks) from a query except post data.
-         *
-         * All the back quotes execpt user data to be inserted are revomved automatically.
-         * This method must be used when INSERT, UPDATE or REPLACE query is executed.
-         *
-         * Obsolite since 1.5.1
-         *
-         * @access private
-         */
-        private function safe_strip_backticks()
-        {
-            $query_string = '';
-            $tokens = preg_split("/(''|')/s", $this->_query, -1, PREG_SPLIT_DELIM_CAPTURE);
-            $literal = false;
-            $query_string = '';
-            foreach ($tokens as $token) {
-                if ($token == "'") {
-                    if ($literal) {
-                        $literal = false;
-                    } else {
-                        $literal = true;
-                    }
-                } else {
-                    if ($literal === false && strpos($token, '`') !== false) {
-                        $token = str_replace('`', '', $token);
-                    }
-                }
-                $query_string .= $token;
-            }
-            $this->_query = $query_string;
-        }
-
-        /**
          * Method to emulate the SQL_CALC_FOUND_ROWS placeholder for MySQL.
          *
          * This is a kind of tricky play.
@@ -3165,24 +3091,6 @@ HTML
             $result = $_wpdb->query($unlimited_query);
             $wpdb->dbh->found_rows_result = $result;
             $_wpdb = null;
-        }
-
-        /**
-         * Call back method to change SELECT query to SELECT COUNT().
-         *
-         * obsolete since version 1.5.1
-         *
-         * @param    string $query the query to be transformed
-         *
-         * @return string the transformed query
-         * @access private
-         */
-        private function _transform_to_count($query)
-        {
-            $pattern = '/^\\s*SELECT\\s*(DISTINCT|)?.*?FROM\b/isx';
-            $_query = preg_replace($pattern, 'SELECT \\1 COUNT(*) FROM ', $query);
-
-            return $_query;
         }
 
         /**
@@ -3437,22 +3345,6 @@ HTML
         {
             $pattern = '/\s([^\s]*)\s*regexp\s*(\'.*?\')/im';
             $this->_query = preg_replace($pattern, ' regexpp(\1, \2)', $this->_query);
-        }
-
-        /**
-         * Method to rewrite boolean to number.
-         *
-         * SQLite doesn't support true/false type, so we need to convert them to 1/0.
-         *
-         * Obsolite since 1.5.1
-         *
-         * @access private
-         */
-        private function rewrite_boolean()
-        {
-            $query = str_ireplace('TRUE', "1", $this->_query);
-            $query = str_ireplace('FALSE', "0", $query);
-            $this->_query = $query;
         }
 
         /**
@@ -4258,12 +4150,10 @@ HTML
             $query = str_replace('`', '', $query);
             if (preg_match('/^\\s*(ALTER\\s*TABLE)\\s*(\\w+)?\\s*/ims', $query, $match)) {
                 $tmp_query = [];
-                $tokens = [];
                 $re_command = '';
                 $command = str_ireplace($match[0], '', $query);
                 $tmp_tokens['query_type'] = trim($match[1]);
                 $tmp_tokens['table_name'] = trim($match[2]);
-                //$command_array = $this->split_multiple($command);
                 $command_array = explode(',', $command);
 
                 $single_command = array_shift($command_array);
@@ -4464,60 +4354,6 @@ HTML
         }
 
         /**
-         * Function to split multiple commands into an array and return it.
-         *
-         * This function is deprecated.
-         *
-         * @access private
-         *
-         * @param string $command
-         *
-         * @return array
-         */
-        private function split_multiple($command)
-        {
-            $out = true;
-            $command_array = [];
-            $command_string = '';
-            $tokens = preg_split('/\b/s', $command, -1, PREG_SPLIT_DELIM_CAPTURE);
-            foreach ($tokens as $token) {
-                switch (trim($token)) {
-                    case ';':
-                        break;
-                    case '(':
-                        $command_string .= $token;
-                        $out = false;
-                        break;
-                    case ')':
-                        $command_string .= $token;
-                        $out = true;
-                        break;
-                    case '),':
-                        $command_array[] = $command_string;
-                        $command_string = '';
-                        $out = true;
-                        break;
-                    case ',':
-                        if ($out) {
-                            $command_array[] = $command_string;
-                            $command_string = '';
-                        } else {
-                            $command_string .= $token;
-                        }
-                        break;
-                    default:
-                        $command_string .= $token;
-                        break;
-                }
-            }
-            if (! empty($command_string)) {
-                $command_array[] = $command_string;
-            }
-
-            return $command_array;
-        }
-
-        /**
          * Function to handle single command.
          *
          * @access private
@@ -4678,7 +4514,6 @@ HTML
         {
             $col_check = false;
             $old_fields = '';
-            $new_fields = '';
             $tokenized_query = $queries;
             $temp_table = 'temp_' . $tokenized_query['table_name'];
             if (isset($tokenized_query['new_column'])) {
@@ -4895,7 +4730,6 @@ HTML
         include_once ABSPATH . 'wp-admin/includes/schema.php';
         $index_array = [];
 
-        //ob_end_clean();
         $table_schemas = wp_get_db_schema();
         $queries = explode(";", $table_schemas);
         $query_parser = new CreateQuery();
