@@ -15,6 +15,11 @@
             "role": "Author of SQLite Integration"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "WP_SQLite_DB\\": "src"
+        }
+    },
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/src"
