@@ -6,6 +6,10 @@ php:
 - 7.2
 - 5.6
 
+cache:
+  directories:
+    - $HOME/.cache/composer
+
 before_install: composer validate --strict
 
 install: composer install
