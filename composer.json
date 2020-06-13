@@ -15,12 +15,23 @@
             "role": "Author of SQLite Integration"
         }
     ],
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/src"
+        }
+    },
     "require": {
-        "php": ">=5.4",
+        "php": ">=5.6",
         "ext-PDO": "*",
         "composer/installers": "^1.0"
     },
     "require-dev": {
-        "wp-cli/core-command": "^2.0"
+        "phpunit/phpunit": "^5 || ^6 || ^7",
+        "roots/wordpress": "^5",
+        "wp-cli/core-command": "^2",
+        "wp-phpunit/wp-phpunit": "^5"
+    },
+    "scripts": {
+        "test": "phpunit"
     }
 }

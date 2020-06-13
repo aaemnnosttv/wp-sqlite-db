@@ -1,12 +1,17 @@
 language: php
+
 php:
+- 7.4
 - 7.3
 - 7.2
-- 7.1
 - 5.6
+
+cache:
+  directories:
+    - $HOME/.cache/composer
 
 before_install: composer validate --strict
 
 install: composer install
 
-script: .ci/test.sh
+script: composer test
