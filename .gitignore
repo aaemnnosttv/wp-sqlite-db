@@ -2,5 +2,6 @@ vendor/
 composer.lock
 wordpress/
 tests/.htaccess
+tests/index.php
 tests/database.sqlite
 tests/debug.txt
