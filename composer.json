@@ -30,5 +30,8 @@
         "roots/wordpress": "^5",
         "wp-cli/core-command": "^2",
         "wp-phpunit/wp-phpunit": "^5"
+    },
+    "scripts": {
+        "test": "phpunit"
     }
 }
