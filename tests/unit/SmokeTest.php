@@ -9,10 +9,10 @@ class SmokeTest extends TestCase
     {
         // Do something that triggers a database query.
 
-        $this->assertCount( 0, get_posts());
+        $this->assertCount(0, get_posts());
 
         $this->factory()->post->create();
 
-        $this->assertCount( 1, get_posts());
+        $this->assertCount(1, get_posts());
     }
 }
