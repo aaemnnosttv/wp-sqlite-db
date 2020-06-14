@@ -735,28 +735,17 @@ class PDOSQLiteUDFS {
 	 *
 	 * This function compares two dates value and returns the difference.
 	 *
-	 * PHP 5.3.2 has a serious bug in DateTime::diff(). So if users' PHP is that version,
-	 * we don't use that function. See https://bugs.php.net/bug.php?id=51184.
-	 *
 	 * @param string start
 	 * @param string end
 	 *
 	 * @return string
 	 */
 	public function datediff( $start, $end ) {
-		if ( version_compare( PHP_VERSION, '5.3.2', '==' ) ) {
-			$start_date = strtotime( $start );
-			$end_date   = strtotime( $end );
-			$interval   = floor( ( $start_date - $end_date ) / ( 3600 * 24 ) );
+		$start_date = new DateTime( $start );
+		$end_date   = new DateTime( $end );
+		$interval   = $end_date->diff( $start_date, false );
 
-			return $interval;
-		} else {
-			$start_date = new DateTime( $start );
-			$end_date   = new DateTime( $end );
-			$interval   = $end_date->diff( $start_date, false );
-
-			return $interval->format( '%r%a' );
-		}
+		return $interval->format( '%r%a' );
 	}
 
 	/**
