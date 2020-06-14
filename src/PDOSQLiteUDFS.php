@@ -489,7 +489,7 @@ class PDOSQLiteUDFS {
 	 *
 	 * This function returns true if the argument is null, and true if not.
 	 *
-	 * @param various types $field
+	 * @param mixed types $field
 	 *
 	 * @return boolean
 	 */
@@ -502,11 +502,11 @@ class PDOSQLiteUDFS {
 	 *
 	 * As 'IF' is a reserved word for PHP, function name must be changed.
 	 *
-	 * @param unknonw $expression the statement to be evaluated as true or false.
-	 * @param unknown $true statement or value returned if $expression is true.
-	 * @param unknown $false statement or value returned if $expression is false.
+	 * @param mixed $expression the statement to be evaluated as true or false.
+	 * @param mixed $true statement or value returned if $expression is true.
+	 * @param mixed $false statement or value returned if $expression is false.
 	 *
-	 * @return unknown
+	 * @return mixed
 	 */
 	public function _if( $expression, $true, $false ) {
 		return ( $expression == true ) ? $true : $false;
@@ -535,7 +535,7 @@ class PDOSQLiteUDFS {
 	 *
 	 * @param string
 	 *
-	 * @return NULL if the argument is null | string conatenated if the argument is given.
+	 * @return NULL if the argument is null | string concatenated if the argument is given.
 	 */
 	public function concat() {
 		$returnValue = "";
@@ -709,7 +709,7 @@ class PDOSQLiteUDFS {
 	 *
 	 * This function gets 4 or 8 bytes integer and turn it into the network address.
 	 *
-	 * @param unsigned long integer
+	 * @param int long integer
 	 *
 	 * @return string
 	 */
@@ -780,8 +780,6 @@ class PDOSQLiteUDFS {
 	/**
 	 * Method to return GMT date in the string format.
 	 *
-	 * @param none
-	 *
 	 * @return string formatted GMT date 'dddd-mm-dd'
 	 */
 	public function utc_date() {
@@ -791,8 +789,6 @@ class PDOSQLiteUDFS {
 	/**
 	 * Method to return GMT time in the string format.
 	 *
-	 * @param none
-	 *
 	 * @return string formatted GMT time '00:00:00'
 	 */
 	public function utc_time() {
@@ -801,8 +797,6 @@ class PDOSQLiteUDFS {
 
 	/**
 	 * Method to return GMT time stamp in the string format.
-	 *
-	 * @param none
 	 *
 	 * @return string formatted GMT timestamp 'yyyy-mm-dd 00:00:00'
 	 */
@@ -816,13 +810,9 @@ class PDOSQLiteUDFS {
 	 * This function only returns the current newest version number of MySQL,
 	 * because it is meaningless for SQLite database.
 	 *
-	 * @param none
-	 *
 	 * @return string representing the version number: major_version.minor_version
 	 */
 	public function version() {
-		//global $required_mysql_version;
-		//return $required_mysql_version;
 		return '5.5';
 	}
 }
