@@ -2,6 +2,9 @@
 
 namespace WP_SQLite_DB;
 
+use DateInterval;
+use DateTime;
+use Exception;
 use PDO;
 
 /**
