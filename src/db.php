@@ -16,7 +16,7 @@
 
 namespace WP_SQLite_DB {
 
-	use DateTime;
+    use DateTime;
     use PDO;
     use PDOException;
 
