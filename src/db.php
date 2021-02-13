@@ -1333,7 +1333,7 @@ HTML
          * @return mixed according to the query type
          * @see PDO::query()
          */
-        public function query($statement, $mode = PDO::ATTR_DEFAULT_FETCH_MODE, $arg3 = null, array $ctorargs = [])
+        public function query($statement, $mode = PDO::ATTR_DEFAULT_FETCH_MODE, mixed ...$ctorargs)
         {
             $this->flush();
 
