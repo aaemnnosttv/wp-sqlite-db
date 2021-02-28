@@ -270,23 +270,18 @@ class PDOEngine extends PDO {
 		if ( ! is_dir( FQDBDIR ) ) {
 			if ( ! @mkdir( FQDBDIR, 0704, true ) ) {
 				umask( $u );
-				$message = 'Unable to create the required directory! Please check your server settings.';
-				wp_die( $message, 'Error!' );
+				wp_die( 'Unable to create the required directory! Please check your server settings.', 'WP SQLite DB Error' );
 			}
 		}
 		if ( ! is_writable( FQDBDIR ) ) {
 			umask( $u );
-			$message = 'Unable to create a file in the directory! Please check your server settings.';
-			wp_die( $message, 'Error!' );
+			wp_die( 'Unable to create a file in the directory! Please check your server settings.', 'WP SQLite DB Error' );
 		}
 		if ( ! is_file( FQDBDIR . '.htaccess' ) ) {
 			$fh = fopen( FQDBDIR . '.htaccess', "w" );
 			if ( ! $fh ) {
 				umask( $u );
-				$message = 'Unable to create a file in the directory! Please check your server settings.';
-				echo $message;
-
-				return false;
+				wp_die( 'Unable to create a file in the directory! Please check your server settings.', 'WP SQLite DB Error' );
 			}
 			fwrite( $fh, 'DENY FROM ALL' );
 			fclose( $fh );
@@ -295,10 +290,7 @@ class PDOEngine extends PDO {
 			$fh = fopen( FQDBDIR . 'index.php', "w" );
 			if ( ! $fh ) {
 				umask( $u );
-				$message = 'Unable to create a file in the directory! Please check your server settings.';
-				echo $message;
-
-				return false;
+				wp_die( 'Unable to create a file in the directory! Please check your server settings.', 'WP SQLite DB Error' );
 			}
 			fwrite( $fh, '<?php // Silence is gold. ?>' );
 			fclose( $fh );
