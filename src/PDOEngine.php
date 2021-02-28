@@ -196,7 +196,7 @@ class PDOEngine extends PDO {
 				$message = 'Database initialization error!<br />' .
 				           'Code: ' . $status .
 				           ( isset( $err_message ) ? '<br />Error Message: ' . $err_message : '' );
-				$this->set_error( __LINE__, __FILE__, $message );
+				$this->set_error( __LINE__, __METHOD__, $message );
 
 				return false;
 			}
