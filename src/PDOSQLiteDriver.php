@@ -135,6 +135,13 @@ class PDOSQLiteDriver {
 			case 'optimize':
 				$this->rewrite_optimize();
 				break;
+			case 'start transaction':
+			case 'begin':
+				$this->_query = 'SAVEPOINT start';
+				break;
+			case 'rollback':
+				$this->_query = 'ROLLBACK TO SAVEPOINT start';
+				break;
 			case 'pragma':
 				break;
 			default:

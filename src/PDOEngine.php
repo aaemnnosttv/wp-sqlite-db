@@ -662,13 +662,10 @@ class PDOEngine extends PDO {
 			do {
 				if ( $this->query_type == 'update' || $this->query_type == 'replace' ) {
 					try {
-						$this->beginTransaction();
 						$statement->execute( $this->extracted_variables );
-						$this->commit();
 					} catch ( PDOException $err ) {
 						$reason  = $err->getCode();
 						$message = $err->getMessage();
-						$this->rollBack();
 					}
 				} else {
 					try {
@@ -684,13 +681,10 @@ class PDOEngine extends PDO {
 			do {
 				if ( $this->query_type == 'update' || $this->query_type == 'replace' ) {
 					try {
-						$this->beginTransaction();
 						$statement->execute();
-						$this->commit();
 					} catch ( PDOException $err ) {
 						$reason  = $err->getCode();
 						$message = $err->getMessage();
-						$this->rollBack();
 					}
 				} else {
 					try {
@@ -831,7 +825,7 @@ class PDOEngine extends PDO {
 	 * @return boolean|string
 	 */
 	private function determine_query_type( $query ) {
-		$result = preg_match( '/^\\s*(SET|EXPLAIN|PRAGMA|SELECT\\s*FOUND_ROWS|SELECT|INSERT|UPDATE|REPLACE|DELETE|ALTER|CREATE|DROP\\s*INDEX|DROP|SHOW\\s*\\w+\\s*\\w+\\s*|DESCRIBE|DESC|TRUNCATE|OPTIMIZE|CHECK|ANALYZE)/i',
+		$result = preg_match( '/^\\s*(SET|EXPLAIN|PRAGMA|SELECT\\s*FOUND_ROWS|SELECT|INSERT|UPDATE|REPLACE|DELETE|ALTER|CREATE|DROP\\s*INDEX|DROP|SHOW\\s*\\w+\\s*\\w+\\s*|DESCRIBE|DESC|TRUNCATE|OPTIMIZE|CHECK|ANALYZE|START TRANSACTION|COMMIT|ROLLBACK)/i',
 			$query, $match );
 
 		if ( ! $result ) {
@@ -840,6 +834,9 @@ class PDOEngine extends PDO {
 		$this->query_type = strtolower( $match[1] );
 		if ( stripos( $this->query_type, 'found' ) !== false ) {
 			$this->query_type = 'foundrows';
+		}
+		if ( stripos( $this->query_type, 'start transaction' ) !== false ) {
+			$this->query_type = 'begin';
 		}
 		if ( stripos( $this->query_type, 'show' ) !== false ) {
 			if ( stripos( $this->query_type, 'show table status' ) !== false ) {
@@ -1001,7 +998,6 @@ class PDOEngine extends PDO {
 		$message         = '';
 		//$queries = explode(";", $this->rewritten_query);
 		try {
-			$this->beginTransaction();
 			foreach ( $rewritten_query as $single_query ) {
 				$this->queries[] = "Executing:\n" . $single_query;
 				$single_query    = trim( $single_query );
@@ -1010,14 +1006,11 @@ class PDOEngine extends PDO {
 				}
 				$this->pdo->exec( $single_query );
 			}
-			$this->commit();
 		} catch ( PDOException $err ) {
 			$reason  = $err->getCode();
 			$message = $err->getMessage();
 			if ( 5 == $reason || 6 == $reason ) {
-				$this->commit();
 			} else {
-				$this->rollBack();
 			}
 		}
 		if ( $reason > 0 ) {
@@ -1048,7 +1041,6 @@ class PDOEngine extends PDO {
 			unset( $rewritten_query['recursion'] );
 		}
 		try {
-			$this->beginTransaction();
 			if ( is_array( $rewritten_query ) ) {
 				foreach ( $rewritten_query as $single_query ) {
 					$this->queries[] = "Executing:\n" . $single_query;
@@ -1063,15 +1055,12 @@ class PDOEngine extends PDO {
 				$rewritten_query = trim( $rewritten_query );
 				$this->pdo->exec( $rewritten_query );
 			}
-			$this->commit();
 		} catch ( PDOException $err ) {
 			$reason  = $err->getCode();
 			$message = $err->getMessage();
 			if ( 5 == $reason || 6 == $reason ) {
-				$this->commit();
 				usleep( 10000 );
 			} else {
-				$this->rollBack();
 			}
 		}
 		if ( $re_query != '' ) {
@@ -1408,7 +1397,11 @@ class PDOEngine extends PDO {
 		if ( $this->has_active_transaction ) {
 			return false;
 		} else {
-			$this->has_active_transaction = $this->pdo->beginTransaction();
+			try {
+				$this->has_active_transaction = $this->pdo->beginTransaction();
+			} catch ( \Exception $e) {
+				$e;
+			}
 
 			return $this->has_active_transaction;
 		}
