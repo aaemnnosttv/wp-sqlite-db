@@ -332,17 +332,17 @@ class PDOSQLiteUDFS {
 		$interval = $this->deriveInterval( $interval );
 		switch ( strtolower( $date ) ) {
 			case "curdate()":
-				$objDate = new Datetime( $this->curdate() );
+				$objDate = new DateTime( $this->curdate() );
 				$objDate->add( new DateInterval( $interval ) );
 				$formatted = $objDate->format( "Y-m-d" );
 				break;
 			case "now()":
-				$objDate = new Datetime( $this->now() );
+				$objDate = new DateTime( $this->now() );
 				$objDate->add( new DateInterval( $interval ) );
 				$formatted = $objDate->format( "Y-m-d H:i:s" );
 				break;
 			default:
-				$objDate = new Datetime( $date );
+				$objDate = new DateTime( $date );
 				$objDate->add( new DateInterval( $interval ) );
 				$formatted = $objDate->format( "Y-m-d H:i:s" );
 		}
@@ -367,17 +367,17 @@ class PDOSQLiteUDFS {
 		$interval = $this->deriveInterval( $interval );
 		switch ( strtolower( $date ) ) {
 			case "curdate()":
-				$objDate = new Datetime( $this->curdate() );
+				$objDate = new DateTime( $this->curdate() );
 				$objDate->sub( new DateInterval( $interval ) );
 				$returnval = $objDate->format( "Y-m-d" );
 				break;
 			case "now()":
-				$objDate = new Datetime( $this->now() );
+				$objDate = new DateTime( $this->now() );
 				$objDate->sub( new DateInterval( $interval ) );
 				$returnval = $objDate->format( "Y-m-d H:i:s" );
 				break;
 			default:
-				$objDate = new Datetime( $date );
+				$objDate = new DateTime( $date );
 				$objDate->sub( new DateInterval( $interval ) );
 				$returnval = $objDate->format( "Y-m-d H:i:s" );
 		}
