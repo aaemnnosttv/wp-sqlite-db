@@ -265,7 +265,6 @@ class PDOEngine extends PDO {
 	 * It is executed only once when the installation begins.
 	 */
 	private function prepare_directory() {
-		global $wpdb;
 		$u = umask( 0000 );
 		if ( ! is_dir( FQDBDIR ) ) {
 			if ( ! @mkdir( FQDBDIR, 0704, true ) ) {
