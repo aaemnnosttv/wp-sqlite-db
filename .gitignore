@@ -1,8 +1,7 @@
 vendor/
 composer.lock
 wordpress/
-src/uploads/
-tests/.htaccess
-tests/index.php
-tests/database.sqlite
-tests/debug.txt
+tests/test-wp-content/
+!tests/test-wp-content/.gitkeep
+!tests/test-wp-content/db.php
+/dist/

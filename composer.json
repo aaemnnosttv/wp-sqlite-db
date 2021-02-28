@@ -18,7 +18,11 @@
     "autoload": {
         "psr-4": {
             "WP_SQLite_DB\\": "src"
-        }
+        },
+        "classmap": [
+            "src/WP_SQLite_DB__Main.php",
+            "./wordpress/wp-includes/wp-db.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -33,10 +37,21 @@
     "require-dev": {
         "phpunit/phpunit": "^5 || ^6 || ^7",
         "roots/wordpress": "^5",
-        "wp-cli/core-command": "^2",
-        "wp-phpunit/wp-phpunit": "^5"
+        "wp-phpunit/wp-phpunit": "^5",
+        "classpreloader/classpreloader": "^4.1",
+        "classpreloader/console": "^3.1"
     },
     "scripts": {
+        "compile": "classpreloader compile --config=scripts/classloader-config.php --strip_comments=1 --output=dist/compiled.php",
+        "generate-dropin": [
+            "@compile",
+            "@php scripts/generate-dropin.php"
+        ],
         "test": "phpunit"
+    },
+    "scripts-descriptions": {
+        "compile": "Compiles WP SQlite DB classes together into dist/compiled.php",
+        "generate-dropin": "Generates the db.php dropin file from compiled classes and other partials into dist/db.php",
+        "test": "Runs PHPUnit tests"
     }
 }
