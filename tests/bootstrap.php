@@ -10,10 +10,10 @@ putenv( sprintf( 'WP_PHPUNIT__TESTS_CONFIG=%s', __DIR__ . '/wp-config.php' ) );
 require_once dirname( __DIR__ ) . '/vendor/autoload.php';
 
 // Reset the DB file completely before each run.
-if ( file_exists( __DIR__ . '/database.sqlite' ) ) {
-    unlink( __DIR__ . '/database.sqlite' );
-}
-touch( __DIR__ . '/database.sqlite' );
+$db_handle = fopen( __DIR__ . '/test-wp-content/database.sqlite', 'w' );
+ftruncate( $db_handle, 0 );
+fclose( $db_handle );
+unset( $db_handle );
 
 // Start up the WP testing environment.
 require getenv( 'WP_PHPUNIT__DIR' ) . '/includes/bootstrap.php';

@@ -1,12 +1,15 @@
 <?php
-
+define( 'WP_SQLITE_DB__ROOT', dirname( __DIR__ ) );
 /* Path to the WordPress codebase you'd like to test. Add a forward slash in the end. */
-define( 'ABSPATH', dirname( __DIR__ ) . '/wordpress/' );
+define( 'ABSPATH', WP_SQLITE_DB__ROOT . '/wordpress/' );
 
-// Configure WordPress to use the src directory for wp-content to use the SQLite DB driver.
-define( 'WP_CONTENT_DIR', dirname( __DIR__ ) . '/src' );
+// Configure WordPress to use an alternate wp-content directory to use the SQLite DB driver.
+define( 'WP_CONTENT_DIR', WP_SQLITE_DB__ROOT . '/tests/test-wp-content' );
 // Configure the file to use for the database.
-define( 'DB_DIR', __DIR__ );
+// SQLite supports using an in-memory database as well
+// which would be ideal, but test runs "install" WordPress
+// in a separate process on every run so this isn't possible.
+define( 'DB_DIR', WP_CONTENT_DIR );
 define( 'DB_FILE', 'database.sqlite');
 
 /*
@@ -57,7 +60,7 @@ define( 'SECURE_AUTH_SALT', 'put your unique phrase here' );
 define( 'LOGGED_IN_SALT',   'put your unique phrase here' );
 define( 'NONCE_SALT',       'put your unique phrase here' );
 
-$table_prefix = 'wpphpunittests_';   // Only numbers, letters, and underscores please!
+$table_prefix = 'wpsqlitedbtests_';   // Only numbers, letters, and underscores please!
 
 define( 'WP_TESTS_DOMAIN', 'example.org' );
 define( 'WP_TESTS_EMAIL', 'admin@example.org' );
