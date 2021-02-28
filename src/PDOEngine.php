@@ -291,7 +291,7 @@ class PDOEngine extends PDO {
 				umask( $u );
 				wp_die( 'Unable to create a file in the directory! Please check your server settings.', 'WP SQLite DB Error' );
 			}
-			fwrite( $fh, '<?php // Silence is gold. ?>' );
+			fwrite( $fh, '<?php // Silence is golden. ?>' );
 			fclose( $fh );
 		}
 		umask( $u );
