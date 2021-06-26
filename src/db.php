@@ -3466,6 +3466,8 @@ HTML
 
                         return;
                     } else {
+                        $ins_array_assoc = [];
+
                         if (preg_match('/^\((.*)\)\\s*VALUES\\s*\((.*)\)$/im', $insert_data, $match_2)) {
                             $col_array = explode(',', $match_2[1]);
                             $ins_array = explode(',', $match_2[2]);
