@@ -6,7 +6,7 @@
  * Author URI: https://aaemnnost.tv
  * Plugin URI: https://github.com/aaemnnosttv/wp-sqlite-db
  * Version: 1.1.0
- * Requires PHP: 5.4
+ * Requires PHP: 5.6
  *
  * This file must be placed in wp-content/db.php.
  * WordPress loads this file automatically.
