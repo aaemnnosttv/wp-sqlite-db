@@ -1316,13 +1316,12 @@ HTML
          * @param string $statement full SQL statement string
          *
          * @param int $mode
-         * @param null $arg3
-         * @param array $ctorargs
+         * @param array $fetch_mode_args
          *
          * @return mixed according to the query type
          * @see PDO::query()
          */
-        public function query($statement, $mode = PDO::ATTR_DEFAULT_FETCH_MODE, $arg3 = null, array $ctorargs = [])
+        public function query($statement, $mode = PDO::ATTR_DEFAULT_FETCH_MODE, ...$fetch_mode_args)
         {
             $this->flush();
 
