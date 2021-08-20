@@ -17,7 +17,7 @@ before_install: composer validate --strict
 
 install:
   - composer install
-  - [ $TRAVIS_PHP_VERSION == '8.0' ] && composer update phpunit/phpunit --ignore-platform-reqs --with-dependencies
+  - "[ $TRAVIS_PHP_VERSION == '8.0' ] && composer update phpunit/phpunit --ignore-platform-reqs --with-dependencies"
 
 script:
   - php -l src/db.php || exit 1
