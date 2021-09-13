@@ -22,6 +22,7 @@ A single file drop-in for using a SQLite database with WordPress. Based on the o
     }
 }
 ```
+- `composer require aaemnnosttv/wp-sqlite-db`
 
 ## Overview
 
