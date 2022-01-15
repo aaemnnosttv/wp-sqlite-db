@@ -29,9 +29,16 @@
         "phpunit/phpunit": "^5 || ^6 || ^7",
         "roots/wordpress": "^5",
         "wp-cli/core-command": "^2",
-        "wp-phpunit/wp-phpunit": "^5"
+        "wp-phpunit/wp-phpunit": "^5",
+        "yoast/phpunit-polyfills": "^1.0"
     },
     "scripts": {
         "test": "phpunit"
+    },
+    "config": {
+        "allow-plugins": {
+            "roots/wordpress-core-installer": true,
+            "composer/installers": true
+        }
     }
 }

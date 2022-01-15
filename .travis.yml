@@ -16,8 +16,12 @@ cache:
 before_install: composer validate --strict
 
 install:
-  - composer install
-  - "[ $TRAVIS_PHP_VERSION != '8.0' ] || composer update phpunit/phpunit --ignore-platform-reqs --with-dependencies"
+  - "[ $TRAVIS_PHP_VERSION == '8.0' ] || composer install"
+  # Temporary hack to allow installing PHPUnit 7 with PHP 8 until WP 5.9.
+  # as WP PHPUnit does not allow PHPUnit higher than 7 yet.
+  # See https://github.com/WordPress/wordpress-develop/commit/8def694fe4c5df95f8e20e40389faf9cb92b6dca
+  - "[ $TRAVIS_PHP_VERSION != '8.0' ] || composer install --ignore-platform-reqs"
+  - composer show
 
 script:
   - php -l src/db.php || exit 1
