@@ -16,8 +16,6 @@ cache:
 before_install: composer validate --strict
 
 install:
-  - composer validate --strict
-  - composer require --no-update --dev roots/wordpress:${WP_VERSION} wp-phpunit/wp-phpunit:${WP_VERSION}
   - "[ $TRAVIS_PHP_VERSION == '8.0' ] || composer install"
   # Temporary hack to allow installing PHPUnit 7 with PHP 8 until WP 5.9.
   # as WP PHPUnit does not allow PHPUnit higher than 7 yet.
