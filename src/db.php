@@ -918,7 +918,7 @@ HTML
         public function locate($substr, $str, $pos = 0)
         {
             if (! extension_loaded('mbstring')) {
-                if (($val = stros($str, $substr, $pos)) !== false) {
+                if (($val = strpos($str, $substr, $pos)) !== false) {
                     return $val + 1;
                 } else {
                     return 0;
