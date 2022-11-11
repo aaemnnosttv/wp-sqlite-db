@@ -2818,6 +2818,17 @@ HTML
         {
             return '5.5';
         }
+
+        /**
+         * Retrieves full database server information.
+         *
+         * @since 5.5.0
+         *
+         * @return string Server info on success, false on failure.
+         */
+        public function db_server_info() {
+            return 'SQLite3';
+        }
     }
 
 
