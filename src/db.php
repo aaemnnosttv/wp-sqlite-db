@@ -2818,6 +2818,16 @@ HTML
         {
             return '5.5';
         }
+
+        /**
+         * Retrieves full database server information.
+         *
+         * @return string|false Server info on success, false on failure.
+         */
+        public function db_server_info()
+        {
+            return SQLite3::version()['versionString'] . '-SQLite3';
+        }
     }
 
 
