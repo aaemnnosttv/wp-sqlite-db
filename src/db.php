@@ -20,6 +20,7 @@ namespace WP_SQLite_DB {
     use DateInterval;
     use PDO;
     use PDOException;
+    use SQLite3;
 
     if (! defined('ABSPATH')) {
         exit;
@@ -2816,7 +2817,18 @@ HTML
          */
         public function db_version()
         {
+            // WordPress currently requires this to be 5.0 or greater.
             return '5.5';
+        }
+
+        /**
+         * Retrieves full database server information.
+         *
+         * @return string|false Server info on success, false on failure.
+         */
+        public function db_server_info()
+        {
+            return SQLite3::version()['versionString'] . '-SQLite3';
         }
     }
 
