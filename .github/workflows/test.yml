@@ -29,6 +29,8 @@ jobs:
       - name: 'Validate PHP syntax'
         run: php -l src/db.php
 
+      - run: composer install
+
       - name: Run tests
         run: composer test
 
