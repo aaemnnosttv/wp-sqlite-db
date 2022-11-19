@@ -6,3 +6,4 @@ tests/.htaccess
 tests/index.php
 tests/database.sqlite
 tests/debug.txt
+.phpunit.result.cache
