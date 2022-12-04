@@ -2426,7 +2426,8 @@ HTML
          *
          * @see PDO::beginTransaction()
          */
-        public function beginTransaction(): bool
+        #[\ReturnTypeWillChange]
+        public function beginTransaction()
         {
             if ($this->has_active_transaction) {
                 return false;
@@ -2442,7 +2443,8 @@ HTML
          *
          * @see PDO::commit()
          */
-        public function commit(): bool
+        #[\ReturnTypeWillChange]
+        public function commit()
         {
             $isSuccess = $this->pdo->commit();
             $this->has_active_transaction = false;
@@ -2455,7 +2457,8 @@ HTML
          *
          * @see PDO::rollBack()
          */
-        public function rollBack(): bool
+        #[\ReturnTypeWillChange]
+        public function rollBack()
         {
             $isSuccess = $this->pdo->rollBack();
             $this->has_active_transaction = false;
