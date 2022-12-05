@@ -1319,6 +1319,7 @@ HTML
          * @param int $mode
          * @param array $fetch_mode_args
          *
+         * @return mixed according to the query type
          * @see PDO::query()
          */
         #[\ReturnTypeWillChange]
@@ -2425,6 +2426,7 @@ HTML
          * Method to call PDO::beginTransaction().
          *
          * @see PDO::beginTransaction()
+         * @return boolean
          */
         #[\ReturnTypeWillChange]
         public function beginTransaction()
