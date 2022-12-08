@@ -1322,6 +1322,7 @@ HTML
          * @return mixed according to the query type
          * @see PDO::query()
          */
+        #[\ReturnTypeWillChange]
         public function query($statement, $mode = PDO::ATTR_DEFAULT_FETCH_MODE, ...$fetch_mode_args)
         {
             $this->flush();
@@ -2427,15 +2428,16 @@ HTML
          * @see PDO::beginTransaction()
          * @return boolean
          */
+        #[\ReturnTypeWillChange]
         public function beginTransaction()
         {
             if ($this->has_active_transaction) {
                 return false;
-            } else {
-                $this->has_active_transaction = $this->pdo->beginTransaction();
-
-                return $this->has_active_transaction;
             }
+
+            $this->has_active_transaction = $this->pdo->beginTransaction();
+
+            return $this->has_active_transaction;
         }
 
         /**
@@ -2443,10 +2445,13 @@ HTML
          *
          * @see PDO::commit()
          */
+        #[\ReturnTypeWillChange]
         public function commit()
         {
-            $this->pdo->commit();
+            $isSuccess = $this->pdo->commit();
             $this->has_active_transaction = false;
+
+            return $isSuccess;
         }
 
         /**
@@ -2454,10 +2459,13 @@ HTML
          *
          * @see PDO::rollBack()
          */
+        #[\ReturnTypeWillChange]
         public function rollBack()
         {
-            $this->pdo->rollBack();
+            $isSuccess = $this->pdo->rollBack();
             $this->has_active_transaction = false;
+
+            return $isSuccess;
         }
     }
 
