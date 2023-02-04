@@ -2474,6 +2474,7 @@ HTML
      *
      * @author kjm
      */
+    #[\AllowDynamicProperties]
     class ObjectArray
     {
         function __construct($data = null, &$node = null)
@@ -2483,7 +2484,7 @@ HTML
                     if (! $node) {
                         $node =& $this;
                     }
-                    $node->$key = new stdClass();
+                    $node->$key = new \stdClass();
                     self::__construct($value, $node->$key);
                 } else {
                     if (! $node) {
