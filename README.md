@@ -1,6 +1,6 @@
 # wp-sqlite-db
 
-[![Build Status](https://travis-ci.org/aaemnnosttv/wp-sqlite-db.svg?branch=master)](https://travis-ci.org/aaemnnosttv/wp-sqlite-db)
+[![Test](https://github.com/aaemnnosttv/wp-sqlite-db/actions/workflows/test.yml/badge.svg)](https://github.com/aaemnnosttv/wp-sqlite-db/actions/workflows/test.yml)
 [![Packagist](https://img.shields.io/packagist/v/aaemnnosttv/wp-sqlite-db.svg)](https://packagist.org/packages/aaemnnosttv/wp-sqlite-db)
 [![Packagist](https://img.shields.io/packagist/l/aaemnnosttv/wp-sqlite-db.svg)](https://packagist.org/packages/aaemnnosttv/wp-sqlite-db)
 
