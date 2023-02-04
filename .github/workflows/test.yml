@@ -30,17 +30,17 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
 
-      - name: Install Composer dependencies
-        uses: ramsey/composer-install@v2
-        with:
-          # Bust the cache at least once a month - output format: YYYY-MM.
-          custom-cache-suffix: $(date -u "+%Y-%m")
-
       - name: 'Validate composer.json'
         run: composer validate --strict
 
       - name: 'Validate PHP syntax'
         run: php -l src/db.php
+
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@v2
+        with:
+          # Bust the cache at least once a month - output format: YYYY-MM.
+          custom-cache-suffix: $(date -u "+%Y-%m")
 
       - name: Run tests
         run: composer test
