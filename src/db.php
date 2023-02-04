@@ -5,7 +5,7 @@
  * Author: Evan Mattson
  * Author URI: https://aaemnnost.tv
  * Plugin URI: https://github.com/aaemnnosttv/wp-sqlite-db
- * Version: 1.2.0
+ * Version: 1.3.1
  * Requires PHP: 5.6
  *
  * This file must be placed in wp-content/db.php.
