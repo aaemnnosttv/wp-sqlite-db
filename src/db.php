@@ -5,7 +5,7 @@
  * Author: Evan Mattson
  * Author URI: https://aaemnnost.tv
  * Plugin URI: https://github.com/aaemnnosttv/wp-sqlite-db
- * Version: 1.2.0
+ * Version: 1.3.1
  * Requires PHP: 5.6
  *
  * This file must be placed in wp-content/db.php.
@@ -2474,6 +2474,7 @@ HTML
      *
      * @author kjm
      */
+    #[\AllowDynamicProperties]
     class ObjectArray
     {
         function __construct($data = null, &$node = null)
@@ -2483,7 +2484,7 @@ HTML
                     if (! $node) {
                         $node =& $this;
                     }
-                    $node->$key = new stdClass();
+                    $node->$key = new \stdClass();
                     self::__construct($value, $node->$key);
                 } else {
                     if (! $node) {
