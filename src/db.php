@@ -2270,7 +2270,7 @@ HTML
             } else {
                 foreach ($this->_results as $row) {
                     $_columns['Field'] = $row->name;
-                    $_columns['Type'] = $row->type;
+                    $_columns['Type'] = strtolower($row->type);
                     $_columns['Null'] = $row->notnull ? "NO" : "YES";
                     $_columns['Key'] = $row->pk ? "PRI" : "";
                     $_columns['Default'] = $row->dflt_value;
