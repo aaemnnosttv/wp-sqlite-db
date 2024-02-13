@@ -2826,8 +2826,8 @@ HTML
          */
         public function db_version()
         {
-            // WordPress currently requires this to be 5.0 or greater.
-            return '5.5';
+            // WordPress currently requires this to be 5.5.5 or greater.
+            return '8.0';
         }
 
         /**
