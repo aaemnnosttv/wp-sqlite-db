@@ -2828,7 +2828,8 @@ HTML
         {
             // WordPress currently requires this to be 5.5.5 or greater.
             // See https://github.com/WordPress/wordpress-develop/blob/308271cd35c3c71548f6bece6746e67fc4aa6d89/src/wp-includes/version.php#L47
-            return '5.5.5';
+            // See https://github.com/WordPress/sqlite-database-integration/commit/768f8cc6d2a2707f744bba31cb0e5421a68c0f4f
+            return '8.0';
         }
 
         /**
