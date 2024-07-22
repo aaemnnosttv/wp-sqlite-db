@@ -3621,6 +3621,9 @@ HTML
             global $wpdb;
             $pattern = "DELETE o1 FROM $wpdb->options AS o1 JOIN $wpdb->options AS o2";
             $pattern2 = "DELETE a, b FROM $wpdb->sitemeta AS a, $wpdb->sitemeta AS b";
+            $pattern3_line1 = "DELETE a, b FROM $wpdb->options a, $wpdb->options b"; // https://github.com/aaemnnosttv/wp-sqlite-db/issues/26
+            $pattern3_transient_line = "WHERE a.option_name LIKE '_transient_%'";
+            $pattern3_site_transient_line = "WHERE a.option_name LIKE '_site_transient_%'";
             $rewritten = "DELETE FROM $wpdb->options WHERE option_id IN (SELECT MIN(option_id) FROM $wpdb->options GROUP BY option_name HAVING COUNT(*) > 1)";
             if (stripos($this->_query, $pattern) !== false) {
                 $this->_query = $rewritten;
@@ -3635,6 +3638,58 @@ HTML
                 }
                 $rewritten = "DELETE FROM $wpdb->sitemeta WHERE meta_id IN (" . implode(',', $ids_to_delete) . ")";
                 $this->_query = $rewritten;
+            } elseif (stripos($this->_query, $pattern3_line1) !== false && stripos($this->_query, $pattern3_transient_line) !== false) {
+                /* query was
+                DELETE a, b FROM wp_options a, wp_options b
+			        WHERE a.option_name LIKE '_transient_%'
+			        AND a.option_name NOT LIKE '_transient_timeout_%'
+			        AND b.option_name = CONCAT( '_transient_timeout_', SUBSTRING( a.option_name, 12 ) )
+			        AND b.option_value < 1677325977
+                SQLite does not support MySQL's Multiple-Table Syntax for DELETE
+                (https://dev.mysql.com/doc/refman/8.0/en/delete.html)
+                Rewrite the query */
+                $parts = preg_split("/\s+/", $this->_query, -1, PREG_SPLIT_NO_EMPTY);
+                $timeval = end($parts);
+                $this->_query = "
+                    delete from $wpdb->options
+                    where rowid in (
+                        select b.rowid from $wpdb->options a
+                        inner join $wpdb->options b
+                        on b.option_name = '_transient_timeout_' || SUBSTRING( a.option_name, 12 )
+                        and b.option_value < $timeval
+                    )
+                    or rowid in (
+                        select a.rowid from $wpdb->options a
+                        inner join $wpdb->options b
+                        on b.option_name = '_transient_timeout_' || SUBSTRING( a.option_name, 12 )
+                        and b.option_value < $timeval
+                    )";
+            } elseif (stripos($this->_query, $pattern3_line1) !== false && stripos($this->_query, $pattern3_site_transient_line) !== false) {
+                /* query was
+                DELETE a, b FROM wp_options a, wp_options b
+			        WHERE a.option_name LIKE '_site_transient_%'
+			        AND a.option_name NOT LIKE '_site_transient_timeout_%'
+			        AND b.option_name = CONCAT( '_site_transient_timeout_', SUBSTRING( a.option_name, 12 ) )
+			        AND b.option_value < 1677325977
+                SQLite does not support MySQL's Multiple-Table Syntax for DELETE
+                (https://dev.mysql.com/doc/refman/8.0/en/delete.html)
+                Rewrite the query */
+                $parts = preg_split("/\s+/", $this->_query, -1, PREG_SPLIT_NO_EMPTY);
+                $timeval = end($parts);
+                $this->_query = "
+                    delete from $wpdb->options
+                    where rowid in (
+                        select b.rowid from $wpdb->options a
+                        inner join $wpdb->options b
+                        on b.option_name = '_site_transient_timeout_' || SUBSTRING( a.option_name, 12 )
+                        and b.option_value < $timeval
+                    )
+                    or rowid in (
+                        select a.rowid from $wpdb->options a
+                        inner join $wpdb->options b
+                        on b.option_name = '_site_transient_timeout_' || SUBSTRING( a.option_name, 12 )
+                        and b.option_value < $timeval
+                    )";
             }
         }
 
